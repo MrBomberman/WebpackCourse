@@ -1,6 +1,10 @@
 const path = require('path'); // подключаем модуль path, благодаря которому удобно работать с путями на платформе
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin'); // забираем из объекта нужный класс
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin'); // забираем из объекта нужный класс
+const CopyWebpackPlugin = require('copy-webpack-plugin'); // подключаем копирование плагинов
+
 
 module.exports = { // задаем конфигурацию
     context: path.resolve(__dirname, 'src'), // говорит, где лежат все исходники нашего приложения
@@ -21,26 +25,32 @@ module.exports = { // задаем конфигурацию
             '@': path.resolve(__dirname, 'src')
         }
     },
-    optimization :{ // оптимизация кода
+    optimization: { // оптимизация кода
         splitChunks: {
             chunks: 'all' // общий код подключенной бибилотеки js будет вынесен в отдельный файл vendor
         }
     },
-    devServer:{
+    devServer: {
         port: 4200
-    },  
+    },
     plugins: [ // подключаем плагины
         new HTMLWebpackPlugin({
             title: 'Webpack course',
             template: './index.html' // полностью соберет контент из этого файла
         }), // добавили новый плагин
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin([ // передаем массив, для каждого элемента копирования указываем объект
+            {
+                from: path.resolve(__dirname, 'src/favicon.ico'), // откуда копируем и куда
+                to: path.resolve(__dirname, 'dist')
+            }
+        ])
     ],
-    module: { 
+    module: {
         rules: [ // правила, тут и задаем новые лоадеры
             { // подключаем лоадеры 
                 test: /\.css$/, // как только webpack встречает в импортах css файлы
-                use: ['style-loader','css-loader'] // необходимо использовать определенный тип лоадеров
+                use: ['style-loader', 'css-loader'] // необходимо использовать определенный тип лоадеров
             }, // webpack  идет справа налево
             {
                 test: /\.(png|jpg|svh|gif)$/,
@@ -61,4 +71,4 @@ module.exports = { // задаем конфигурацию
         ]
 
     }
-} 
+}
