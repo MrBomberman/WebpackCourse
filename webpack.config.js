@@ -14,6 +14,21 @@ module.exports = { // задаем конфигурацию
         path: path.resolve(__dirname, 'dist') // отталкиваясь от текущей директории, мы все складываем в папку dist
 
     },
+    resolve: { // объект
+        extensions: ['.js', '.png', '.json'], // говорим webpack какие расширения следует понимать по умолчанию
+        alias: {
+            '@models': path.resolve(__dirname, 'src/models'), // ключом меняем длинное написание пути до папки
+            '@': path.resolve(__dirname, 'src')
+        }
+    },
+    optimization :{ // оптимизация кода
+        splitChunks: {
+            chunks: 'all' // общий код подключенной бибилотеки js будет вынесен в отдельный файл vendor
+        }
+    },
+    devServer:{
+        port: 4200
+    },  
     plugins: [ // подключаем плагины
         new HTMLWebpackPlugin({
             title: 'Webpack course',
@@ -38,6 +53,10 @@ module.exports = { // задаем конфигурацию
             {
                 test: /\.xml$/,
                 use: ['xml-loader']
+            },
+            {
+                test: /\.csv$/,
+                use: ['csv-loader']
             }
         ]
 

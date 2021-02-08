@@ -10,7 +10,7 @@ class Post{
             title: this.title,
             date: this.date.toJSON(),
             img: this.img
-        });
+        }, null, 2); // задаем 2-м параметром null- риплейсер, 3-м параметром - кол-во пробелов
     }
 
     get uppercaseTitle() {

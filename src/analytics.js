@@ -1,3 +1,5 @@
+import * as $ from 'jquery';
+
 function createAnalytics() {
 
     let counter = 0;
@@ -6,10 +8,10 @@ function createAnalytics() {
         counter++;
     }
 
-    document.addEventListener('click', listener );
+    $(document).on('click', listener );
     return {
         destroy() {
-            document.removeEventListener('click' , listener);
+            $(document).off('click' , listener);
             isDestroyed = true;
         },
 
