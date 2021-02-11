@@ -1,18 +1,17 @@
 import * as $ from 'jquery';
 
-function createAnalytics() {
+function createAnalytics(): object {
 
     let counter = 0;
-    let destroyed = false;
-    const listener = () => {
-        counter++;
-    }
+    let destroyed: boolean = false;
+    const listener = (): number => counter++;
+    
 
     $(document).on('click', listener );
     return {
         destroy() {
             $(document).off('click' , listener);
-            isDestroyed = true;
+            destroyed = true;
         },
 
         getClicks() {
@@ -25,5 +24,5 @@ function createAnalytics() {
     }
 }
 
-window.analytics = createAnalytics(); // в глобальную перменную, в объект analytics присваиваем значение данной функции
+window['analytics'] = createAnalytics(); // в глобальную перменную, в объект analytics присваиваем значение данной функции
 // можем в консоли браузера прописывать ananlytics и пользоваться функциями, которые возвращает наша присвоенная функция
